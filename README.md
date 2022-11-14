@@ -2,7 +2,7 @@
 
  [Documentation Link](https://login2explore.com/jpdb/docs.html)
 
-## "This Project contais Create Read and Update Functions implemented using JsonPowerDB"
+## "This Project contais Create, Read and Update Functions implemented using JsonPowerDB"
 
 ### JsonPowerDB is a high performance, creative and disruptive multi-mode DBMS.
 
