@@ -1,3 +1,6 @@
+.Head{
+    text-align: center;
+}
 .data{
     position: relative;
     margin: auto;
@@ -10,7 +13,20 @@
     margin-top: 15vh;
     height: 40vh;
 }
-.data > li > a{
+.data > li > a>button{
     text-decoration: none;
-    color: black;
+    color: white;
+    align-items: center;
+    height: 10vh;
+    width: 10vw;
+    background-color: black;
+    border-radius: 20%;
+}
+.data >li>a{
+    height: 10vh;
+    width: 10vw;
+    text-align: center;
+    align-items: center;
+    background-color: black;
+    border-radius: 5px;
 }
