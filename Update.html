@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src=""></script>
+</head>
+<body>
+<div class="container">
+<h2>Update Request Form</h2>
+<form id="empForm" method="post">
+    <div class="form-group">
+        <span><label for="Id">Index:</label> <label id="empIdMsg">
+        </label></span>
+        <input type="text" class="form-control" name="Id" id="Id"
+        placeholder="Enter Employee ID" required>
+        </div>
+    <div class="form-group">
+    <span><label for="empId">Employee ID:</label> <label id="empIdMsg">
+    </label></span>
+    <input type="text" class="form-control" name="empId" id="empId"
+    placeholder="Enter Employee ID" required>
+    </div>
+    <div class="form-group">
+    <label for="empName">Employee Name:</label>
+    <input type="text" class="form-control" id="empName"
+    placeholder="Enter Employee Name" name="empName">
+    </div>
+    <div class="form-group">
+    <label for="empEmail">Email:</label>
+    <input type="email" class="form-control" id="empEmail"
+    placeholder="Enter Employee Email" name="empEmail">
+    </div>
+    <input type="button" class="btn btn-primary" id="empSave" value="Update"
+    onclick="updateEmployee();">
+    </form>
+</div>
+<div id="Display">
+
+</div>
+<script>
+$("#Id").focus();
+iDch = 0;
+function validateAndGetFormData() {
+var ID = $("#Id").val();
+var empIdVar = $("#empId").val();
+var empNameVar = $("#empName").val();
+var empEmailVar = $("#empEmail").val();
+console.log(ID)
+console.log(empIdVar)
+if(ID=="")
+{
+    alert("Index is required")
+    $("#Id").focus();
+    return("")
+}
+
+if(empIdVar=="" && empNameVar == "" && empEmailVar =="")
+{
+    alert("Input some value to update");
+    $("#empId").focus();
+    return("")
+}
+
+iDch = ID;
+var jsonStrObj = {};
+if(empIdVar!=="")
+ jsonStrObj.empId = empIdVar;
+ if(empNameVar!=="")
+ jsonStrObj.empName = empNameVar;
+ if(empEmailVar!=="")
+ jsonStrObj.empEmail = empEmailVar;
+return JSON.stringify(jsonStrObj);
+}
+// This method is used to create PUT Json request.
+function createUpdateRequest(connToken, jsonObj, dbName, relName) {
+var updateRequest = "{\n"
++ "\"token\" : \""
++ connToken
++ "\","
++ "\"cmd\" : \"UPDATE\",\n"
++ "\"dbName\": \""
++ dbName
++ "\",\n" 
++ "\"rel\" : \""
++ relName + "\","
++ "\"jsonStr\": { \n"
++ "\"" + iDch + "\" : " + jsonObj 
++ "}\n"
++ "}";
+console.log(updateRequest)
+return updateRequest;
+}
+function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+var url = dbBaseUrl + apiEndPointUrl;
+var jsonObj;
+$.post(url, reqString, function (result) {
+jsonObj = JSON.parse(result);
+}).fail(function (result) {
+var dataJsonObj = result.responseText;
+jsonObj = JSON.parse(dataJsonObj);
+});
+return jsonObj;
+}
+function resetForm() {
+$("#empId").val("")
+$("#empName").val("");
+$("#empEmail").val("");
+$("#empId").focus();
+}
+function updateEmployee() {
+var jsonStr = validateAndGetFormData();
+if (jsonStr === "") {
+return;
+}
+var putReqStr = createUpdateRequest("90938093|-31949268538421443|90953064",
+jsonStr, "SAMPLE", "EMP-REL");
+// alert(putReqStr);
+jQuery.ajaxSetup({async: false});
+var resultObj = executeCommand(putReqStr,
+"http://api.login2explore.com:5577", "/api/iml");
+alert(resultObj["message"])
+jQuery.ajaxSetup({async: true});
+// resetForm();
+}
+</script>
+</body>
+</html>

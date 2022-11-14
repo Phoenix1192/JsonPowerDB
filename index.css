@@ -1,0 +1,16 @@
+.data{
+    position: relative;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 15vh;
+    height: 40vh;
+}
+.data > li > a{
+    text-decoration: none;
+    color: black;
+}
